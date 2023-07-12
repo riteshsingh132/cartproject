@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppBar, Toolbar, Button, Dialog, DialogTitle, DialogContent, TextField, Box } from '@mui/material';
+import { AppBar, Toolbar, Button, Dialog, DialogTitle, DialogContent, TextField, Box, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router';
 import ShoppingCart from './ShoppingCart';
@@ -164,8 +164,10 @@ function Navbar() {
 
   return (
     <div>
-      <AppBar position="static" style={{ alignItems: "end" }}  >
-        <Toolbar>
+      <AppBar  position="fixed" style={{  backgroundColor:"black" }}  >
+        
+        <Toolbar className='justify-content-between'>
+          <Typography style={{fontWeight:"bold",fontSize:"20px"}}>RITESH SINGH</Typography>
           <Button sx={{ backgroundColor: "red" }} color="inherit" onClick={handleOpen}>
             Buy Now
           </Button>
@@ -197,7 +199,7 @@ function Navbar() {
 
       <div>
 
-        {newData && <div className='container d-flex flex-wrap col-10'>
+        {newData && <div className='container d-flex flex-wrap col-10' style={{marginTop:"100px"}}>
           {newData.map((item) => {
 
             const count = (counData[item.id] || 0);
@@ -206,8 +208,8 @@ function Navbar() {
 
             return (
               <>
-              <div style={{ gap: "25px", margin: "15px auto", textAlign: "center" }}>
-                <div style={{ border: "1px solid green", gap: "20px", width: "200px", margin: "25px 0" }}>
+              <div style={{ gap: "25px", margin: "0 auto 10px auto",padding:"0 0 10px 0", textAlign: "center", borderRadius:"10px",boxShadow:"2px 5px 10px #ccc"}}>
+                <div style={{  gap: "20px", width: "200px", margin: "15px 10px" }}>
                   <img src={item.prodimage} alt="Product" style={{ width: "200px", height: "200px" }} />
                 </div>
                 <div><h5>{item.productname}</h5></div>
@@ -228,7 +230,7 @@ function Navbar() {
 
                 </div>
 
-                <button style={{backgroundColor:"blue",width:"100px",padding:"10px 10px",borderRadius:"5px",color:"white"}} onClick={() => handleAddToBag(item)}>Add to Bag</button>
+                <button class="btn-primary" style={{width:"100px",padding:"10px 10px",borderRadius:"5px",color:"white"}} onClick={() => handleAddToBag(item)}>Add to Bag</button>
                
               </div>
               
