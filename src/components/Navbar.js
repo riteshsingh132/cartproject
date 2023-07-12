@@ -228,7 +228,7 @@ function Navbar() {
 
                 </div>
 
-                <button style={{backgroundColor:"red",width:"100px",padding:"10px 10px",borderRadius:"5px",color:"white"}} onClick={() => handleAddToBag(item)}>Add to Bag</button>
+                <button style={{backgroundColor:"blue",width:"100px",padding:"10px 10px",borderRadius:"5px",color:"white"}} onClick={() => handleAddToBag(item)}>Add to Bag</button>
                
               </div>
               
