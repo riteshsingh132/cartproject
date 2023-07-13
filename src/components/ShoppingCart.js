@@ -69,7 +69,7 @@ function ShoppingCart({newData,totalAmount,counData,setOrigCount,toggle}) {
         <h3>Total Price:{totalAmount}</h3>
       </div>
     </div>
-    //
+    
 
     </>
   )
