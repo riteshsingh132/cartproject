@@ -6,6 +6,7 @@ import ShoppingCart from './ShoppingCart';
 
 function Navbar() {
 
+ const navigate=useNavigate()
   const [data, setData] = useState({
     productname: "",
     prodimage: "",
@@ -18,19 +19,19 @@ function Navbar() {
   const [counData,setCountData]=useState(0)
   const [totalAmount, setTotalAmount] = useState(0);
   const [productImage, setProductImage] = useState(null);
-  // const [image, setImage] = useState(null);
   const [open, setOpen] = useState(false);
   const [productName, setProductName] = useState('');
-  const [price, setPrice] = useState(0);
   const [orgCount,setOrigCount]=useState(0)
+  const [showBox,setshowBox]=useState(false)
+
 
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0]
@@ -59,18 +60,30 @@ function Navbar() {
     setData((prev) => ({ ...prev, price: event.target.value }));
   };
 
+  
   const handleSubmit = () => {
+    if(data.productname ===""){
+      alert("Please File Product Name")
+    }else if(data.price ==""){
+      alert("Please File Product Price")
+    
+    }else{
     const id=uuidv4();
     const newProduct={...data,id}
     setNewData([...newData, newProduct])
     setData({productname: "",prodimage: "",price: "",image: null})
      localStorage.setItem("data", JSON.stringify([...newData, data]))
-    
+     navigate("./")
+     setshowBox(true)
+     setOpen(false);
     // Perform form submission logic here
     setTimeout(() => {
       const updatedData = [...newData, newProduct];
       localStorage.setItem("data", JSON.stringify(updatedData));
     }, 0);
+
+    }
+
   };
 
   useEffect(() => {
@@ -129,6 +142,9 @@ function Navbar() {
     
   // };
 
+
+  const [toggle,setToggle]=useState(false)
+
   const handleAddToBag = (prd) => {
     const cart = JSON.parse(localStorage.getItem("data")) || [];
     const updatedCart = cart.map((item) => {
@@ -154,6 +170,7 @@ function Navbar() {
     });
   
     setTotalAmount(totalPrice);
+    setToggle(true)
   };
   // const handleAddToBag = (productId, price) => {
   //   const count = counData[productId] || 0;
@@ -168,18 +185,18 @@ function Navbar() {
         
         <Toolbar className='justify-content-between'>
           <Typography style={{fontWeight:"bold",fontSize:"20px"}}>RITESH SINGH</Typography>
-          <Button sx={{ backgroundColor: "red" }} color="inherit" onClick={handleOpen}>
+          <Button sx={{ backgroundColor: "red", ":hover":{bgcolor:"green"}}} color="inherit" onClick={handleOpen}>
             Buy Now
           </Button>
         </Toolbar>
       </AppBar>
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Buy Now</DialogTitle>
+       <Dialog open={open}>
+        <DialogTitle sx={{margin:"0 0 5px 0" }}>Add Product</DialogTitle>
         <DialogContent>
           <Box display="flex" flexDirection="column">
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            <TextField
+           <input type="file" style={{margin:"0 0 5px 0"}} accept="image/*" onChange={handleImageChange} />
+            <TextField sx={{margin:"10px 0 10px 0"}}
               label="Product Name"
               value={data.productname}
               onChange={handleProductNameChange}
@@ -189,13 +206,13 @@ function Navbar() {
               label="Price"
               value={data.price}
               onChange={handlePriceChange}
+              type='number'
               required
             />
-            <Button onClick={handleSubmit}>Add Product</Button>
+            <Button  onClick={handleSubmit}>Add Product</Button>
           </Box>
         </DialogContent>
       </Dialog>
-
 
       <div>
 
@@ -240,7 +257,10 @@ function Navbar() {
         </div>}
        
       </div>
-      <ShoppingCart newData={newData} totalAmount={totalAmount} counData={counData} setOrigCount={setOrigCount}/>
+     
+    
+     <ShoppingCart newData={newData} totalAmount={totalAmount} counData={counData} setOrigCount={setOrigCount} toggle={toggle}/>
+  
     </div>
   );
 }
