@@ -24,7 +24,7 @@ function Navbar() {
   const [orgCount,setOrigCount]=useState(0)
   const [showBox,setshowBox]=useState(false)
 
-
+console.log(data)
   const handleOpen = () => {
     setOpen(true);
   };
@@ -151,7 +151,6 @@ function Navbar() {
       if (item.id === prd.id) {
         const count = counData[item.id] || 0;
         const totalPrice = count * item.price;
-  
         return {
           ...item,
           quantity: count,
@@ -186,8 +185,8 @@ function Navbar() {
         <Toolbar className='justify-content-between'>
           <Typography style={{fontWeight:"bold",fontSize:"20px"}}>RITESH SINGH</Typography>
           <Button sx={{ backgroundColor: "red", ":hover":{bgcolor:"green"}}} color="inherit" onClick={handleOpen}>
-            Buy Now
-          </Button>
+            Add Product
+          </Button> 
         </Toolbar>
       </AppBar>
 
@@ -214,9 +213,9 @@ function Navbar() {
         </DialogContent>
       </Dialog>
 
-      <div>
+      <div style={{border:"1px solid red"}}>
 
-        {newData && <div className='container d-flex flex-wrap col-10' style={{marginTop:"100px"}}>
+      {newData && <div className='container d-flex flex-wrap col-10' style={{marginTop:"100px"}}>
           {newData.map((item) => {
 
             const count = (counData[item.id] || 0);

@@ -74,5 +74,4 @@ function ShoppingCart({newData,totalAmount,counData,setOrigCount,toggle}) {
     </>
   )
 }
-
-export default ShoppingCart
+export default ShoppingCart;
