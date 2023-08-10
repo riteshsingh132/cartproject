@@ -25,10 +25,10 @@ function ShoppingCart({newData,totalAmount,counData,setOrigCount,toggle}) {
             <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
           </div>
 
-          {recdData && recdData.map((item) => (
+          { recdData.map((item) => (
             
             <>
-            {toggle ?
+            
     
             <div className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-2" key={item.id}>
             {/* product */}
@@ -61,8 +61,8 @@ function ShoppingCart({newData,totalAmount,counData,setOrigCount,toggle}) {
                     
             {/* <span className="text-center w-1/5 font-semibold text-sm">{totalAmount}</span> */}
             </div>  
-                       
-            :" "}
+                  
+            
             </>
           ))}
         </div>
