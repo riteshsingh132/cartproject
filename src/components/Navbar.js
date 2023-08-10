@@ -183,7 +183,7 @@ console.log(data)
       <AppBar  position="fixed" style={{  backgroundColor:"black" }}  >
         
         <Toolbar className='justify-content-between'>
-          <Typography style={{fontWeight:"bold",fontSize:"20px"}}>RITESH SINGH</Typography>
+          <Typography style={{fontWeight:"bold",fontSize:"20px"}}>RITESH</Typography>
           <Button sx={{ backgroundColor: "red", ":hover":{bgcolor:"green"}}} color="inherit" onClick={handleOpen}>
             Add Product
           </Button> 
