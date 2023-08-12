@@ -25,17 +25,17 @@ function Navbar() {
   const [showBox, setshowBox] = useState(false)
 
 
-  const [check,setCheck]=useState()
+  const [check, setCheck] = useState()
 
 
-  console.log(data)
+
   const handleOpen = () => {
     setOpen(true);
   };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -70,11 +70,15 @@ function Navbar() {
 
   const handleSubmit = () => {
     if (data.productname === "") {
-      alert("Please File Product Name")
+      alert("Please Fill Product Name")
     } else if (data.price == "") {
-      alert("Please File Product Price")
+      alert("Please Fill Product Price")
 
-    } else {
+    } else if (data.prodimage === "") {
+      alert("Please add Image")
+    }
+
+    else {
       const id = uuidv4();
       const newProduct = { ...data, id }
       setNewData([...newData, newProduct])
@@ -101,6 +105,7 @@ function Navbar() {
   }, [])
 
   const handleIncre = (productId) => {
+    console.log(productId)
     const cart = JSON.parse(localStorage.getItem("data")) || [];
     setCountData((prev) => {
       const updatedCountData = { ...prev };
@@ -108,13 +113,13 @@ function Navbar() {
 
       // Update local storage
       const updatedCart = newData.map((item) => {
+        console.log(item.id)
         if (item.id === productId) {
-          
           const totalPrice = updatedCountData[productId] * item.price;
           return {
             ...item,
             quantity: updatedCountData[productId] || 0,
-            totalPrice:totalPrice
+            totalPrice: totalPrice
 
           };
         }
@@ -122,6 +127,9 @@ function Navbar() {
       });
 
       localStorage.setItem("data", JSON.stringify(updatedCart));
+
+      // Update newData with updatedCart
+      setNewData(updatedCart);
 
       // Calculate total amount
       let totalPrice = 0;
@@ -135,6 +143,9 @@ function Navbar() {
     });
   };
 
+  
+
+
   const handleDecre = (productId) => {
     setCountData((prev) => {
       const prevCount = prev[productId] || 0;
@@ -143,7 +154,6 @@ function Navbar() {
         ...prev,
         [productId]: newCount,
       };
-
       // Update local storage
       const updatedCart = newData.map((item) => {
         if (item.id === productId) {
@@ -152,18 +162,23 @@ function Navbar() {
           return {
             ...item,
             quantity: updatedCountData[productId] || 0,
-            totalPrice:totalPrice
+            totalPrice: totalPrice
           };
         }
         return item;
       });
 
       localStorage.setItem("data", JSON.stringify(updatedCart));
+
+      // Update newData with updatedCart
+      setNewData(updatedCart);
+
       //calculation
       let totalPrice = 0;
       updatedCart.forEach((item) => {
         totalPrice += (item.price || 0) * (updatedCountData[item.id] || 0);
       });
+
       setTotalAmount(totalPrice);
 
       return updatedCountData;
@@ -213,13 +228,19 @@ function Navbar() {
       </AppBar>
 
       <Dialog open={open}>
-        <DialogTitle sx={{ margin: "0 0 5px 0" }}>Add Product</DialogTitle>
+      
+        <DialogTitle sx={{ margin: "0 0 5px 0" }}>Add Product 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span  onClick={handleClose} aria-hidden="true">&times;</span>
+                    </button>
+                    </DialogTitle>
+        
         <DialogContent>
           <Box display="flex" flexDirection="column">
             <input type="file" style={{ margin: "0 0 5px 0" }} accept="image/*" onChange={handleImageChange} />
             <TextField sx={{ margin: "10px 0 10px 0" }}
               label="Product Name"
-              value={data.productname}
+              defaultValue={data.productname}
               onChange={handleProductNameChange}
               required
             />
@@ -235,15 +256,15 @@ function Navbar() {
         </DialogContent>
       </Dialog>
 
-      <div style={{ border: "1px solid red" }}>
+      <div >
 
         {newData && <div className='container d-flex flex-wrap col-10' style={{ marginTop: "100px" }}>
-          {newData.map((item) => {
+          {newData.map((item, id) => {
 
             const count = (counData[item.id] || 0);
             const totalPrice = count * item.price;
 
-            const recdData=JSON.parse(localStorage.getItem("data")) || [];
+            const recdData = JSON.parse(localStorage.getItem("data")) || [];
             return (
               <>
                 <div style={{ gap: "25px", margin: "0 auto 10px auto", padding: "0 0 10px 0", textAlign: "center", borderRadius: "10px", boxShadow: "2px 5px 10px #ccc" }}>
@@ -251,16 +272,16 @@ function Navbar() {
                     <img src={item.prodimage} alt="Product" style={{ width: "200px", height: "200px" }} />
                   </div>
                   <div><h5>{item.productname}</h5></div>
-                  <div><p>{item.price}</p></div>
+                  <div><p><span>&#8377;</span> {item.price}</p></div>
 
-                  <div className='container d-flex justify-content-center' style={{ margin: "0 auto", padding: "10px 0 0 0" }}>
+                  <div className='container d-flex justify-content-center mb-3' style={{ margin: "0 auto", padding: "10px 0 0 0" }}>
                     <div >
                       <button style={{ width: "25px", backgroundColor: "red", borderRadius: "5px", color: "white", fontWeight: "bold" }} onClick={() => handleDecre(item.id)}>-</button>
                     </div>
                     <div style={{ margin: "0 10px" }}>
-                      <p>{String(counData[item.id] || 0)}</p>
+                      {/* <p>{String(counData[item.id] || 0)}</p> */}
 
-                      {/* {recdData.quantity} */}
+                      {count}
                     </div>
                     <div>
                       <button style={{ width: "25px", backgroundColor: "green", borderRadius: "5px", color: "white", fontWeight: "bold" }} onClick={() => handleIncre(item.id)} >+</button>
@@ -281,7 +302,7 @@ function Navbar() {
       </div>
 
 
-      <ShoppingCart newData={newData} totalAmount={totalAmount} counData={counData} setOrigCount={setOrigCount} toggle={toggle} />
+      <ShoppingCart newData={newData} setNewData={setNewData} totalAmount={totalAmount} counData={counData} setOrigCount={setOrigCount} toggle={toggle} />
 
     </div>
   );

@@ -1,10 +1,18 @@
 import React from 'react'
 
-function ShoppingCart({newData,totalAmount,counData,setOrigCount,toggle}) {
+function ShoppingCart({newData,setNewData,totalAmount,counData,setOrigCount,toggle}) {
     
 
   const recdData=JSON.parse(localStorage.getItem("data")) || [];
 
+  const handleRemoveProduct = (productId) => {
+    
+    const updatedCart = newData.filter(item => item.id !== productId);
+    setNewData(updatedCart)
+
+    // Update localStorage
+    localStorage.setItem("data", JSON.stringify(updatedCart));
+  }
   
 
 
@@ -26,7 +34,7 @@ function ShoppingCart({newData,totalAmount,counData,setOrigCount,toggle}) {
           </div>
 
           { recdData.map((item) => (
-            
+              
             <>
             
     
@@ -39,7 +47,7 @@ function ShoppingCart({newData,totalAmount,counData,setOrigCount,toggle}) {
                 <div className="flex flex-col justify-between ml-4 flex-grow">
                 <span className="font-bold text-sm">{item.productname}</span>
                   <span className="text-red-500 text-xs">{item.brand}</span>
-                  <a href="#" className="font-semibold hover:text-red-500 text-gray-500 text-xs">
+                  <a onClick={() => handleRemoveProduct(item.id)} href="#" className="font-semibold hover:text-red-500 text-gray-500 text-xs">
                   Remove
                   </a>
                   </div>
@@ -66,6 +74,10 @@ function ShoppingCart({newData,totalAmount,counData,setOrigCount,toggle}) {
             </>
           ))}
         </div>
+        
+          {/* <h3>Total Price:{item.quantity * item.price}</h3> */}
+
+       
         <h3>Total Price:{totalAmount}</h3>
       </div>
     </div>
