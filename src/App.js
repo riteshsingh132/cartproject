@@ -10,8 +10,9 @@ import { router } from "./components/router/Router";
 function App() {
   return (
     <div>
+      check
       <RouterProvider router={router} />
-    
+
      {/* <Navbar/> */}
      
     </div>
