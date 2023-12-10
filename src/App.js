@@ -14,7 +14,7 @@ function App() {
       <RouterProvider router={router} />
 
      {/* <Navbar/> */}
-     
+      {/* practice of git by ritesh */}
     </div>
   );
 }
